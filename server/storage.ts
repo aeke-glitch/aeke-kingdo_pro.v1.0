@@ -46,7 +46,7 @@ export interface IStorage {
   createAnimeEpisode(episode: InsertAnimeEpisode): Promise<AnimeEpisode>;
   deleteAnimeEpisode(id: number): Promise<void>;
   
-  sessionStore: session.SessionStore;
+  sessionStore: any;
 }
 
 export class MemStorage implements IStorage {
@@ -64,7 +64,7 @@ export class MemStorage implements IStorage {
   private currentEpisodeId: number;
   private currentAnimeId: number;
   private currentAnimeEpisodeId: number;
-  public sessionStore: session.SessionStore;
+  public sessionStore: any;
 
   constructor() {
     this.users = new Map();
@@ -182,7 +182,12 @@ export class MemStorage implements IStorage {
     const movie: Movie = { 
       ...insertMovie, 
       id, 
-      createdAt: new Date() 
+      createdAt: new Date(),
+      rating: insertMovie.rating || null,
+      description: insertMovie.description || null,
+      thumbnailUrl: insertMovie.thumbnailUrl || null,
+      torrentLink: insertMovie.torrentLink || null,
+      magnetLink: insertMovie.magnetLink || null
     };
     this.movies.set(id, movie);
     return movie;
@@ -215,7 +220,9 @@ export class MemStorage implements IStorage {
     const series: Series = { 
       ...insertSeries, 
       id, 
-      createdAt: new Date() 
+      createdAt: new Date(),
+      description: insertSeries.description || null,
+      thumbnailUrl: insertSeries.thumbnailUrl || null
     };
     this.series.set(id, series);
     return series;
@@ -250,7 +257,11 @@ export class MemStorage implements IStorage {
     const episode: Episode = { 
       ...insertEpisode, 
       id, 
-      createdAt: new Date() 
+      createdAt: new Date(),
+      seriesId: insertEpisode.seriesId || null,
+      duration: insertEpisode.duration || null,
+      videoLink: insertEpisode.videoLink || null,
+      subtitleLink: insertEpisode.subtitleLink || null
     };
     this.episodes.set(id, episode);
     return episode;
@@ -274,7 +285,10 @@ export class MemStorage implements IStorage {
     const anime: Anime = { 
       ...insertAnime, 
       id, 
-      createdAt: new Date() 
+      createdAt: new Date(),
+      thumbnailUrl: insertAnime.thumbnailUrl || null,
+      studio: insertAnime.studio || null,
+      synopsis: insertAnime.synopsis || null
     };
     this.anime.set(id, anime);
     return anime;
@@ -309,7 +323,14 @@ export class MemStorage implements IStorage {
     const episode: AnimeEpisode = { 
       ...insertAnimeEpisode, 
       id, 
-      createdAt: new Date() 
+      createdAt: new Date(),
+      animeId: insertAnimeEpisode.animeId || null,
+      link720p: insertAnimeEpisode.link720p || null,
+      link1080p: insertAnimeEpisode.link1080p || null,
+      link4k: insertAnimeEpisode.link4k || null,
+      size720p: insertAnimeEpisode.size720p || null,
+      size1080p: insertAnimeEpisode.size1080p || null,
+      size4k: insertAnimeEpisode.size4k || null
     };
     this.animeEpisodes.set(id, episode);
     return episode;
