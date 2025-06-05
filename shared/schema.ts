@@ -93,6 +93,18 @@ export const animeEpisodes = pgTable("anime_episodes", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const movieSuggestions = pgTable("movie_suggestions", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  year: integer("year"),
+  genre: text("genre"),
+  description: text("description"),
+  suggestedBy: text("suggested_by"),
+  status: text("status").notNull().default("pending"), // 'pending', 'approved', 'rejected'
+  adminNotes: text("admin_notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
@@ -128,6 +140,11 @@ export const insertAnimeEpisodeSchema = createInsertSchema(animeEpisodes).omit({
   createdAt: true,
 });
 
+export const insertMovieSuggestionSchema = createInsertSchema(movieSuggestions).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -149,3 +166,6 @@ export type InsertAnime = z.infer<typeof insertAnimeSchema>;
 
 export type AnimeEpisode = typeof animeEpisodes.$inferSelect;
 export type InsertAnimeEpisode = z.infer<typeof insertAnimeEpisodeSchema>;
+
+export type MovieSuggestion = typeof movieSuggestions.$inferSelect;
+export type InsertMovieSuggestion = z.infer<typeof insertMovieSuggestionSchema>;

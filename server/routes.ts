@@ -3,7 +3,7 @@ import express from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import { insertGenreSchema, insertMovieSchema, insertSeriesSchema, insertEpisodeSchema, insertAnimeSchema, insertAnimeEpisodeSchema } from "@shared/schema";
+import { insertGenreSchema, insertMovieSchema, insertSeriesSchema, insertEpisodeSchema, insertAnimeSchema, insertAnimeEpisodeSchema, insertMovieSuggestionSchema } from "@shared/schema";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -242,6 +242,49 @@ export function registerRoutes(app: Express): Server {
     res.sendStatus(200);
   });
 
+  // Movie Suggestions routes
+  app.get("/api/movie-suggestions", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    const suggestions = await storage.getMovieSuggestions();
+    res.json(suggestions);
+  });
+
+  app.post("/api/movie-suggestions", async (req, res) => {
+    try {
+      const suggestionData = insertMovieSuggestionSchema.parse({
+        ...req.body,
+        year: req.body.year ? parseInt(req.body.year) : undefined,
+      });
+      const suggestion = await storage.createMovieSuggestion(suggestionData);
+      res.status(201).json(suggestion);
+    } catch (error) {
+      res.status(400).json({ error: "Invalid suggestion data" });
+    }
+  });
+
+  app.put("/api/movie-suggestions/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    
+    const id = parseInt(req.params.id);
+    const { status, adminNotes } = req.body;
+    
+    try {
+      const suggestion = await storage.updateMovieSuggestionStatus(id, status, adminNotes);
+      if (!suggestion) return res.sendStatus(404);
+      res.json(suggestion);
+    } catch (error) {
+      res.status(400).json({ error: "Invalid update data" });
+    }
+  });
+
+  app.delete("/api/movie-suggestions/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    
+    const id = parseInt(req.params.id);
+    await storage.deleteMovieSuggestion(id);
+    res.sendStatus(200);
+  });
+
   // Stats endpoint for dashboard
   app.get("/api/stats", async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
@@ -250,12 +293,14 @@ export function registerRoutes(app: Express): Server {
     const series = await storage.getSeries();
     const anime = await storage.getAnime();
     const genres = await storage.getGenres();
+    const suggestions = await storage.getMovieSuggestions();
     
     res.json({
       movies: movies.length,
       series: series.length,
       anime: anime.length,
       genres: genres.length,
+      suggestions: suggestions.filter(s => s.status === 'pending').length,
     });
   });
 

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
-import { Film, Tv, Zap, Tags } from "lucide-react";
+import { Film, Tv, Zap, Tags, Lightbulb } from "lucide-react";
 
 export function DashboardStats() {
   const { data: stats, isLoading } = useQuery({
@@ -50,6 +50,13 @@ export function DashboardStats() {
       icon: Tags,
       color: "text-blue-500",
       bgColor: "text-pink-500",
+    },
+    {
+      title: "Pending Suggestions",
+      value: stats?.suggestions || 0,
+      icon: Lightbulb,
+      color: "text-pink-500",
+      bgColor: "text-blue-500",
     },
   ];
 

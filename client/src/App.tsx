@@ -15,6 +15,7 @@ import Movies from "@/pages/movies";
 import Series from "@/pages/series";
 import Anime from "@/pages/anime";
 import Genres from "@/pages/genres";
+import Suggestions from "@/pages/suggestions";
 import Settings from "@/pages/settings";
 import { useAuth } from "@/hooks/use-auth";
 import { Bell, User } from "lucide-react";
@@ -30,7 +31,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <Sidebar />
-      
+
       <main className="ml-64 min-h-screen">
         {/* Header */}
         <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm border-b border-gray-200 dark:border-gray-700 px-6 py-4 sticky top-0 z-30">
@@ -38,10 +39,10 @@ function AppLayout({ children }: { children: React.ReactNode }) {
             <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
               {/* Dynamic title will be set by individual pages */}
             </h1>
-            
+
             <div className="flex items-center space-x-4">
               <TimeDisplay />
-              
+
               <Button
                 variant="ghost"
                 size="sm"
@@ -49,7 +50,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
               >
                 <Bell className="h-5 w-5 text-gray-600 dark:text-gray-400" />
               </Button>
-              
+
               <Button
                 variant="ghost"
                 size="sm"
@@ -79,6 +80,7 @@ function Router() {
       <ProtectedRoute path="/series" component={Series} />
       <ProtectedRoute path="/anime" component={Anime} />
       <ProtectedRoute path="/genres" component={Genres} />
+      <ProtectedRoute path="/suggestions" component={Suggestions} />
       <ProtectedRoute path="/settings" component={Settings} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />

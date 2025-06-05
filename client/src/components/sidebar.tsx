@@ -5,7 +5,8 @@ import {
   Tv, 
   Zap, 
   Tags, 
-  Settings 
+  Settings,
+  Lightbulb // Add Lightbulb icon
 } from "lucide-react";
 
 const navigation = [
@@ -14,6 +15,7 @@ const navigation = [
   { name: "TV Series", href: "/series", icon: Tv },
   { name: "Anime", href: "/anime", icon: Zap },
   { name: "Genres", href: "/genres", icon: Tags },
+  { name: "Suggestions", href: "/suggestions", icon: Lightbulb },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -27,7 +29,7 @@ export function Sidebar() {
           Aeke-Kingdom
         </h2>
       </div>
-      
+
       <nav className="mt-6">
         {navigation.map((item) => {
           const isActive = location === item.href;

@@ -1,4 +1,4 @@
-import { users, genres, movies, series, episodes, anime, animeEpisodes, type User, type InsertUser, type Genre, type InsertGenre, type Movie, type InsertMovie, type Series, type InsertSeries, type Episode, type InsertEpisode, type Anime, type InsertAnime, type AnimeEpisode, type InsertAnimeEpisode } from "@shared/schema";
+import { users, genres, movies, series, episodes, anime, animeEpisodes, movieSuggestions, type User, type InsertUser, type Genre, type InsertGenre, type Movie, type InsertMovie, type Series, type InsertSeries, type Episode, type InsertEpisode, type Anime, type InsertAnime, type AnimeEpisode, type InsertAnimeEpisode, type InsertMovieSuggestion } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 
@@ -8,45 +8,51 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
+
   // Genres
   getGenres(): Promise<Genre[]>;
   getGenresByCategory(category: string): Promise<Genre[]>;
   createGenre(genre: InsertGenre): Promise<Genre>;
   deleteGenre(id: number): Promise<void>;
-  
+
   // Movies
   getMovies(): Promise<Movie[]>;
   getMovie(id: number): Promise<Movie | undefined>;
   createMovie(movie: InsertMovie): Promise<Movie>;
   updateMovie(id: number, movie: Partial<InsertMovie>): Promise<Movie | undefined>;
   deleteMovie(id: number): Promise<void>;
-  
+
   // Series
   getSeries(): Promise<Series[]>;
   getSeriesById(id: number): Promise<Series | undefined>;
   createSeries(series: InsertSeries): Promise<Series>;
   updateSeries(id: number, series: Partial<InsertSeries>): Promise<Series | undefined>;
   deleteSeries(id: number): Promise<void>;
-  
+
   // Episodes
   getEpisodesBySeriesId(seriesId: number): Promise<Episode[]>;
   createEpisode(episode: InsertEpisode): Promise<Episode>;
   deleteEpisode(id: number): Promise<void>;
-  
+
   // Anime
   getAnime(): Promise<Anime[]>;
   getAnimeById(id: number): Promise<Anime | undefined>;
   createAnime(anime: InsertAnime): Promise<Anime>;
   updateAnime(id: number, anime: Partial<InsertAnime>): Promise<Anime | undefined>;
   deleteAnime(id: number): Promise<void>;
-  
+
   // Anime Episodes
   getAnimeEpisodesByAnimeId(animeId: number): Promise<AnimeEpisode[]>;
   createAnimeEpisode(episode: InsertAnimeEpisode): Promise<AnimeEpisode>;
   deleteAnimeEpisode(id: number): Promise<void>;
-  
+
   sessionStore: any;
+
+    // Movie Suggestions
+  getMovieSuggestions(): Promise<any>;
+  createMovieSuggestion(suggestion: InsertMovieSuggestion): Promise<any>;
+  updateMovieSuggestionStatus(id: number, status: string, adminNotes?: string): Promise<any>;
+  deleteMovieSuggestion(id: number): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -57,6 +63,7 @@ export class MemStorage implements IStorage {
   private episodes: Map<number, Episode>;
   private anime: Map<number, Anime>;
   private animeEpisodes: Map<number, AnimeEpisode>;
+    private movieSuggestions: Map<number, any>; // Replace 'any' with the actual type
   private currentUserId: number;
   private currentGenreId: number;
   private currentMovieId: number;
@@ -64,6 +71,7 @@ export class MemStorage implements IStorage {
   private currentEpisodeId: number;
   private currentAnimeId: number;
   private currentAnimeEpisodeId: number;
+    private currentMovieSuggestionId: number;
   public sessionStore: any;
 
   constructor() {
@@ -74,6 +82,7 @@ export class MemStorage implements IStorage {
     this.episodes = new Map();
     this.anime = new Map();
     this.animeEpisodes = new Map();
+    this.movieSuggestions = new Map();
     this.currentUserId = 1;
     this.currentGenreId = 1;
     this.currentMovieId = 1;
@@ -81,11 +90,12 @@ export class MemStorage implements IStorage {
     this.currentEpisodeId = 1;
     this.currentAnimeId = 1;
     this.currentAnimeEpisodeId = 1;
-    
+    this.currentMovieSuggestionId = 1;
+
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000,
     });
-    
+
     // Initialize with default genres
     this.initializeDefaultGenres();
   }
@@ -103,7 +113,7 @@ export class MemStorage implements IStorage {
       { name: "Romance", category: "movies" },
       { name: "Fantasy", category: "movies" },
       { name: "Mystery", category: "movies" },
-      
+
       // Series genres
       { name: "Crime", category: "series" },
       { name: "Documentary", category: "series" },
@@ -111,7 +121,7 @@ export class MemStorage implements IStorage {
       { name: "Talk Show", category: "series" },
       { name: "News", category: "series" },
       { name: "Game Show", category: "series" },
-      
+
       // Anime genres
       { name: "Shonen", category: "anime" },
       { name: "Shojo", category: "anime" },
@@ -204,7 +214,7 @@ export class MemStorage implements IStorage {
   async updateMovie(id: number, movieData: Partial<InsertMovie>): Promise<Movie | undefined> {
     const existingMovie = this.movies.get(id);
     if (!existingMovie) return undefined;
-    
+
     const updatedMovie = { ...existingMovie, ...movieData };
     this.movies.set(id, updatedMovie);
     return updatedMovie;
@@ -239,7 +249,7 @@ export class MemStorage implements IStorage {
   async updateSeries(id: number, seriesData: Partial<InsertSeries>): Promise<Series | undefined> {
     const existingSeries = this.series.get(id);
     if (!existingSeries) return undefined;
-    
+
     const updatedSeries = { ...existingSeries, ...seriesData };
     this.series.set(id, updatedSeries);
     return updatedSeries;
@@ -312,7 +322,7 @@ export class MemStorage implements IStorage {
   async updateAnime(id: number, animeData: Partial<InsertAnime>): Promise<Anime | undefined> {
     const existingAnime = this.anime.get(id);
     if (!existingAnime) return undefined;
-    
+
     const updatedAnime = { ...existingAnime, ...animeData };
     this.anime.set(id, updatedAnime);
     return updatedAnime;
@@ -355,6 +365,30 @@ export class MemStorage implements IStorage {
 
   async deleteAnimeEpisode(id: number): Promise<void> {
     this.animeEpisodes.delete(id);
+  }
+
+  async getMovieSuggestions(): Promise<any> {
+      return Array.from(this.movieSuggestions.values());
+  }
+
+  async createMovieSuggestion(suggestion: InsertMovieSuggestion): Promise<any> {
+      const id = this.currentMovieSuggestionId++;
+      const movieSuggestion = { ...suggestion, id, createdAt: new Date(), status: 'pending' };
+      this.movieSuggestions.set(id, movieSuggestion);
+      return movieSuggestion;
+  }
+
+  async updateMovieSuggestionStatus(id: number, status: string, adminNotes?: string): Promise<any> {
+      const existingSuggestion = this.movieSuggestions.get(id);
+      if (!existingSuggestion) return undefined;
+
+      const updatedSuggestion = { ...existingSuggestion, status, adminNotes };
+      this.movieSuggestions.set(id, updatedSuggestion);
+      return updatedSuggestion;
+  }
+
+  async deleteMovieSuggestion(id: number): Promise<void> {
+      this.movieSuggestions.delete(id);
   }
 }
 
