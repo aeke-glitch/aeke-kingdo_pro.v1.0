@@ -13,9 +13,8 @@ import { Eye, EyeOff } from "lucide-react";
 type LoginData = Pick<InsertUser, "username" | "password">;
 
 export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const { user, loginMutation, registerMutation } = useAuth();
+  const { user, loginMutation } = useAuth();
 
   // Redirect if already logged in
   if (user) {
@@ -30,20 +29,8 @@ export default function AuthPage() {
     },
   });
 
-  const registerForm = useForm<InsertUser>({
-    resolver: zodResolver(insertUserSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
-
   const onLoginSubmit = (data: LoginData) => {
     loginMutation.mutate(data);
-  };
-
-  const onRegisterSubmit = (data: InsertUser) => {
-    registerMutation.mutate(data);
   };
 
   return (
@@ -59,164 +46,74 @@ export default function AuthPage() {
             <p className="text-gray-600 dark:text-gray-300 text-lg">Admin Portal Access</p>
           </div>
 
-          <div className="flex rounded-lg p-1 bg-gray-200 dark:bg-gray-700">
-            <Button
-              type="button"
-              variant={isLogin ? "default" : "ghost"}
-              className={`flex-1 ${isLogin 
-                ? "bg-gradient-to-r from-pink-500 to-blue-500 text-white shadow-lg" 
-                : "text-gray-600 dark:text-gray-300"
-              }`}
-              onClick={() => setIsLogin(true)}
-            >
-              Sign In
-            </Button>
-            <Button
-              type="button"
-              variant={!isLogin ? "default" : "ghost"}
-              className={`flex-1 ${!isLogin 
-                ? "bg-gradient-to-r from-pink-500 to-blue-500 text-white shadow-lg" 
-                : "text-gray-600 dark:text-gray-300"
-              }`}
-              onClick={() => setIsLogin(false)}
-            >
-              Sign Up
-            </Button>
-          </div>
-
           <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-2 border-transparent bg-gradient-to-r p-[2px] from-pink-500/20 to-blue-500/20 rounded-xl shadow-2xl">
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
-              {isLogin ? (
-                // Login Form
-                <Form {...loginForm}>
-                  <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-6">
-                    <FormField
-                      control={loginForm.control}
-                      name="username"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Username</FormLabel>
-                          <FormControl>
+              <h3 className="text-xl font-semibold text-center mb-6 text-gray-900 dark:text-white">
+                Admin Login
+              </h3>
+              <Form {...loginForm}>
+                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-6">
+                  <FormField
+                    control={loginForm.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter your username"
+                            {...field}
+                            className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={loginForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <div className="relative">
                             <Input
-                              placeholder="Enter your username"
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Enter your password"
                               {...field}
-                              className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                              className="focus:ring-2 focus:ring-pink-500 focus:border-transparent pr-10"
                             />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                              ) : (
+                                <Eye className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                    <FormField
-                      control={loginForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Input
-                                type={showPassword ? "text" : "password"}
-                                placeholder="Enter your password"
-                                {...field}
-                                className="focus:ring-2 focus:ring-pink-500 focus:border-transparent pr-10"
-                              />
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                                onClick={() => setShowPassword(!showPassword)}
-                              >
-                                {showPassword ? (
-                                  <EyeOff className="h-4 w-4" />
-                                ) : (
-                                  <Eye className="h-4 w-4" />
-                                )}
-                              </Button>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button
-                      type="submit"
-                      className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:shadow-lg hover:shadow-pink-500/25 transition-all duration-300 transform hover:scale-105"
-                      disabled={loginMutation.isPending}
-                    >
-                      {loginMutation.isPending ? "Signing In..." : "Sign In"}
-                    </Button>
-                  </form>
-                </Form>
-              ) : (
-                // Register Form
-                <Form {...registerForm}>
-                  <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-6">
-                    <FormField
-                      control={registerForm.control}
-                      name="username"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Username</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Choose a username"
-                              {...field}
-                              className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={registerForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Input
-                                type={showPassword ? "text" : "password"}
-                                placeholder="Create a password"
-                                {...field}
-                                className="focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
-                              />
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                                onClick={() => setShowPassword(!showPassword)}
-                              >
-                                {showPassword ? (
-                                  <EyeOff className="h-4 w-4" />
-                                ) : (
-                                  <Eye className="h-4 w-4" />
-                                )}
-                              </Button>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button
-                      type="submit"
-                      className="w-full bg-gradient-to-r from-blue-500 to-pink-500 text-white hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 transform hover:scale-105"
-                      disabled={registerMutation.isPending}
-                    >
-                      {registerMutation.isPending ? "Creating Account..." : "Create Account"}
-                    </Button>
-                  </form>
-                </Form>
-              )}
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-pink-500 to-blue-500 text-white hover:shadow-lg hover:shadow-pink-500/25 transition-all duration-300 transform hover:scale-105"
+                    disabled={loginMutation.isPending}
+                  >
+                    {loginMutation.isPending ? "Signing In..." : "Admin Login"}
+                  </Button>
+                </form>
+              </Form>
             </div>
           </Card>
         </div>

@@ -186,6 +186,14 @@ export class MemStorage implements IStorage {
       rating: insertMovie.rating || null,
       description: insertMovie.description || null,
       thumbnailUrl: insertMovie.thumbnailUrl || null,
+      link360p: insertMovie.link360p || null,
+      link480p: insertMovie.link480p || null,
+      link720p: insertMovie.link720p || null,
+      link1080p: insertMovie.link1080p || null,
+      size360p: insertMovie.size360p || null,
+      size480p: insertMovie.size480p || null,
+      size720p: insertMovie.size720p || null,
+      size1080p: insertMovie.size1080p || null,
       torrentLink: insertMovie.torrentLink || null,
       magnetLink: insertMovie.magnetLink || null
     };
@@ -260,7 +268,14 @@ export class MemStorage implements IStorage {
       createdAt: new Date(),
       seriesId: insertEpisode.seriesId || null,
       duration: insertEpisode.duration || null,
-      videoLink: insertEpisode.videoLink || null,
+      link360p: insertEpisode.link360p || null,
+      link480p: insertEpisode.link480p || null,
+      link720p: insertEpisode.link720p || null,
+      link1080p: insertEpisode.link1080p || null,
+      size360p: insertEpisode.size360p || null,
+      size480p: insertEpisode.size480p || null,
+      size720p: insertEpisode.size720p || null,
+      size1080p: insertEpisode.size1080p || null,
       subtitleLink: insertEpisode.subtitleLink || null
     };
     this.episodes.set(id, episode);
