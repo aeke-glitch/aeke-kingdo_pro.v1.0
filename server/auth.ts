@@ -30,8 +30,8 @@ async function comparePasswords(supplied: string, stored: string) {
 
 async function createDefaultUser() {
   try {
-    const defaultUsername = "admin";
-    const defaultPassword = "admin";
+    const defaultUsername = "aeke-ayub";
+    const defaultPassword = "aawab21ayub";
     
     const existingUser = await storage.getUserByUsername(defaultUsername);
     if (!existingUser) {
