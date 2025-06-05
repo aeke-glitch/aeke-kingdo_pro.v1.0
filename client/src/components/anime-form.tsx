@@ -480,24 +480,24 @@ export function AnimeForm() {
                   </div>
                 </div>
                 
-                {/* 4K Quality */}
+                {/* 360p Quality */}
                 <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
                   <div className="flex items-center mb-3">
-                    <Video className="text-pink-500 mr-2 h-5 w-5" />
-                    <span className="font-medium">4K Ultra HD</span>
+                    <Video className="text-gray-500 mr-2 h-5 w-5" />
+                    <span className="font-medium">360p</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FormField
                       control={episodeForm.control}
-                      name="link4k"
+                      name="link360p"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
                             <Input 
                               type="url"
-                              placeholder="4K video link" 
+                              placeholder="360p video link" 
                               {...field}
-                              className="text-sm focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                              className="text-sm focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                             />
                           </FormControl>
                           <FormMessage />
@@ -506,14 +506,57 @@ export function AnimeForm() {
                     />
                     <FormField
                       control={episodeForm.control}
-                      name="size4k"
+                      name="size360p"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
                             <Input 
-                              placeholder="File size (GB)" 
+                              placeholder="File size (e.g. 150MB)" 
                               {...field}
-                              className="text-sm focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                              className="text-sm focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                {/* 480p Quality */}
+                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+                  <div className="flex items-center mb-3">
+                    <Video className="text-orange-500 mr-2 h-5 w-5" />
+                    <span className="font-medium">480p</span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <FormField
+                      control={episodeForm.control}
+                      name="link480p"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input 
+                              type="url"
+                              placeholder="480p video link" 
+                              {...field}
+                              className="text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={episodeForm.control}
+                      name="size480p"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input 
+                              placeholder="File size (e.g. 250MB)" 
+                              {...field}
+                              className="text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                             />
                           </FormControl>
                           <FormMessage />
