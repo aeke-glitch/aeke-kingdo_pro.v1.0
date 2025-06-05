@@ -249,7 +249,24 @@ export function registerRoutes(app: Express): Server {
     res.json(suggestions);
   });
 
+  // Public endpoint for external apps to submit suggestions
   app.post("/api/movie-suggestions", async (req, res) => {
+    try {
+      const suggestionData = insertMovieSuggestionSchema.parse({
+        ...req.body,
+        year: req.body.year ? parseInt(req.body.year) : undefined,
+      });
+      const suggestion = await storage.createMovieSuggestion(suggestionData);
+      res.status(201).json(suggestion);
+    } catch (error) {
+      res.status(400).json({ error: "Invalid suggestion data" });
+    }
+  });
+
+  // Internal endpoint for authenticated users to submit suggestions
+  app.post("/api/movie-suggestions/internal", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    
     try {
       const suggestionData = insertMovieSuggestionSchema.parse({
         ...req.body,

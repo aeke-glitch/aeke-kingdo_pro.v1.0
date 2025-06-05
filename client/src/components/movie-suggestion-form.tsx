@@ -34,7 +34,7 @@ export function MovieSuggestionForm() {
 
   const createSuggestionMutation = useMutation({
     mutationFn: async (data: InsertMovieSuggestion) => {
-      const res = await fetch("/api/movie-suggestions", {
+      const res = await fetch("/api/movie-suggestions/internal", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
