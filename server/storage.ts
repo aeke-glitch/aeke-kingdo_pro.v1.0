@@ -340,12 +340,14 @@ export class MemStorage implements IStorage {
       id, 
       createdAt: new Date(),
       animeId: insertAnimeEpisode.animeId || null,
+      link360p: insertAnimeEpisode.link360p || null,
+      link480p: insertAnimeEpisode.link480p || null,
       link720p: insertAnimeEpisode.link720p || null,
       link1080p: insertAnimeEpisode.link1080p || null,
-      link4k: insertAnimeEpisode.link4k || null,
+      size360p: insertAnimeEpisode.size360p || null,
+      size480p: insertAnimeEpisode.size480p || null,
       size720p: insertAnimeEpisode.size720p || null,
-      size1080p: insertAnimeEpisode.size1080p || null,
-      size4k: insertAnimeEpisode.size4k || null
+      size1080p: insertAnimeEpisode.size1080p || null
     };
     this.animeEpisodes.set(id, episode);
     return episode;

@@ -333,6 +333,26 @@ export function AnimeForm() {
                 
                 <FormField
                   control={episodeForm.control}
+                  name="seasonNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Season Number</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="number" 
+                          placeholder="1" 
+                          {...field}
+                          onChange={(e) => field.onChange(parseInt(e.target.value))}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={episodeForm.control}
                   name="episodeNumber"
                   render={({ field }) => (
                     <FormItem>

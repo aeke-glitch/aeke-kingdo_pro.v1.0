@@ -429,25 +429,156 @@ export function SeriesForm() {
                 />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={episodeForm.control}
-                  name="videoLink"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Video Link</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="url"
-                          placeholder="https://..." 
-                          {...field}
-                          className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="mb-4">
+                <h4 className="text-md font-semibold mb-3 text-gray-900 dark:text-white">Quality Options</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={episodeForm.control}
+                    name="link360p"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>360p Link</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="https://..."
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={episodeForm.control}
+                    name="size360p"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>360p Size</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. 200MB"
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={episodeForm.control}
+                    name="link480p"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>480p Link</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="https://..."
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={episodeForm.control}
+                    name="size480p"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>480p Size</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. 350MB"
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={episodeForm.control}
+                    name="link720p"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>720p Link</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="https://..."
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={episodeForm.control}
+                    name="size720p"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>720p Size</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. 500MB"
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={episodeForm.control}
+                    name="link1080p"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>1080p Link</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="https://..."
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={episodeForm.control}
+                    name="size1080p"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>1080p Size</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. 1GB"
+                            {...field}
+                            className="focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4">
                 
                 <div>
                   <label className="block text-sm font-medium mb-2">Subtitle File/URL</label>

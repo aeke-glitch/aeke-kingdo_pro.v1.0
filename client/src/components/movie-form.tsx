@@ -250,6 +250,155 @@ export function MovieForm() {
                 )}
               />
             </div>
+
+            <div className="md:col-span-2">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Quality Options</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="link360p"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>360p Link</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="https://..."
+                          {...field}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="size360p"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>360p Size</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. 500MB"
+                          {...field}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="link480p"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>480p Link</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="https://..."
+                          {...field}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="size480p"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>480p Size</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. 800MB"
+                          {...field}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="link720p"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>720p Link</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="https://..."
+                          {...field}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="size720p"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>720p Size</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. 1.2GB"
+                          {...field}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="link1080p"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>1080p Link</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="https://..."
+                          {...field}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="size1080p"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>1080p Size</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. 2.5GB"
+                          {...field}
+                          className="focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
             
             <div className="md:col-span-2 flex space-x-4">
               <Button 
